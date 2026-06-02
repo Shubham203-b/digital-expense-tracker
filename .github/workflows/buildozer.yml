@@ -1,10 +1,39 @@
+name: Build Android APK with Pie Chart
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install Buildozer Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y git zip unzip openjdk-11-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+
     - name: Install Buildozer
       run: |
         pip install --upgrade pip
         pip install buildozer
         pip install kivy-garden
-        # Install matplotlib directly (it includes the garden backend)
-        pip install matplotlib
-        # Download the garden matplotlib files manually
-        git clone https://github.com/kivy-garden/garden.matplotlib.git
-        cp -r garden.matplotlib/* ~/.kivy/garden/
+        python -m garden install matplotlib
+
+    - name: Build APK
+      run: |
+        buildozer -v android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: expense-tracker-apk
+        path: bin/*.apk
