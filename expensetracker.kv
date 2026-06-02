@@ -1,0 +1,305 @@
+#:kivy 2.1.0
+
+<LoginScreen>:
+    username_input: username_input
+    password_input: password_input
+    status_label: status_label
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 30
+        spacing: 15
+
+        Widget:
+            size_hint_y: 0.1
+
+        Label:
+            text: "💰 Expense Tracker"
+            font_size: 32
+            bold: True
+            color: (0.2, 0.6, 1, 1)
+
+        Label:
+            text: "Welcome Back"
+            font_size: 18
+            color: (0.3, 0.3, 0.3, 1)
+
+        TextInput:
+            id: username_input
+            hint_text: "Username"
+            multiline: False
+            padding_y: 10
+
+        TextInput:
+            id: password_input
+            hint_text: "Password"
+            password: True
+            multiline: False
+            padding_y: 10
+
+        Button:
+            text: "LOGIN"
+            background_color: (0.2, 0.6, 1, 1)
+            background_normal: ''
+            color: (1, 1, 1, 1)
+            bold: True
+            on_press: root.login()
+
+        Button:
+            text: "CREATE ACCOUNT"
+            background_color: (0.3, 0.8, 0.4, 1)
+            background_normal: ''
+            color: (1, 1, 1, 1)
+            bold: True
+            on_press: root.register()
+
+        Label:
+            id: status_label
+            text: ""
+            color: (1, 0.3, 0.3, 1)
+
+        Widget:
+            size_hint_y: 0.1
+
+<DashboardScreen>:
+    amount_input: amount_input
+    category_spinner: category_spinner
+    notes_input: notes_input
+    history_label: history_label
+    status_label: status_label
+    graph_box: graph_box
+    summary_label: summary_label
+    budget_input: budget_input
+    month_spinner: month_spinner
+    year_spinner: year_spinner
+    theme_button: theme_button
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 15
+        spacing: 8
+
+        # Header
+        BoxLayout:
+            size_hint_y: 0.08
+            orientation: 'horizontal'
+            spacing: 10
+
+            Label:
+                id: welcome_label
+                text: root.welcome_text
+                font_size: 18
+                bold: True
+                color: (0.2, 0.4, 0.8, 1)
+
+            Button:
+                id: theme_button
+                text: "🌙 Dark"
+                size_hint_x: 0.15
+                background_color: (0.4, 0.4, 0.4, 1)
+                background_normal: ''
+                color: (1, 1, 1, 1)
+                on_press: root.toggle_theme()
+
+            Button:
+                text: "🚪 Logout"
+                size_hint_x: 0.2
+                background_color: (0.8, 0.2, 0.2, 1)
+                background_normal: ''
+                color: (1, 1, 1, 1)
+                on_press: root.logout()
+
+        # Input Row (Amount, Category, Notes, Add)
+        BoxLayout:
+            size_hint_y: 0.15
+            orientation: 'horizontal'
+            spacing: 8
+
+            TextInput:
+                id: amount_input
+                hint_text: "Amount ($)"
+                multiline: False
+                input_filter: 'float'
+                foreground_color: (0, 0, 0, 1)  # Black text
+
+            Spinner:
+                id: category_spinner
+                text: "Category"
+                values: ["Food", "Transport", "Bills", "Groceries", "Entertainment", "Other"]
+                size_hint_x: 0.25
+                color: (1, 1, 1, 1)  # White text
+
+            TextInput:
+                id: notes_input
+                hint_text: "Notes (optional)"
+                multiline: False
+                size_hint_x: 0.3
+                foreground_color: (0.1, 0.3, 0.8, 1)  # Dark Blue text
+
+            Button:
+                text: "➕ Add"
+                background_color: (0.2, 0.7, 0.3, 1)
+                background_normal: ''
+                color: (1, 1, 1, 1)
+                size_hint_x: 0.15
+                on_press: root.add_expense()
+
+        # Budget & Tools Row
+        BoxLayout:
+            size_hint_y: 0.08
+            orientation: 'horizontal'
+            spacing: 8
+
+            TextInput:
+                id: budget_input
+                hint_text: "Set Budget"
+                multiline: False
+                input_filter: 'float'
+                foreground_color: (0, 0, 0, 1)  # Black text
+
+            Button:
+                text: "✅ Set Budget"
+                background_color: (0.3, 0.5, 0.9, 1)
+                background_normal: ''
+                color: (1, 1, 1, 1)
+                size_hint_x: 0.25
+                on_press: root.set_budget()
+
+            Button:
+                text: "📄 Export"
+                background_color: (0.7, 0.5, 0.2, 1)
+                background_normal: ''
+                color: (1, 1, 1, 1)
+                size_hint_x: 0.25
+                on_press: root.export_csv()
+
+            Button:
+                text: "🗑️ Delete"
+                background_color: (0.8, 0.3, 0.3, 1)
+                background_normal: ''
+                color: (1, 1, 1, 1)
+                size_hint_x: 0.25
+                on_press: root.delete_expense()
+
+        # Filters: Month & Year
+        BoxLayout:
+            size_hint_y: 0.06
+            orientation: 'horizontal'
+            spacing: 10
+
+            Label:
+                text: "Filter:"
+                font_size: 14
+                bold: True
+
+            Spinner:
+                id: month_spinner
+                text: "All Months"
+                values: ["All Months", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+                size_hint_x: 0.2
+                on_text: root.apply_filters()
+                color: (1, 1, 1, 1)  # White text
+
+            Spinner:
+                id: year_spinner
+                text: "All Years"
+                values: ["All Years", "2023", "2024", "2025", "2026", "2027"]
+                size_hint_x: 0.2
+                on_text: root.apply_filters()
+                color: (1, 1, 1, 1)  # White text
+
+        # Summary
+        Label:
+            id: summary_label
+            text: "Total: $0.00 | Budget: $0.00 | Remaining: $0.00"
+            font_size: 14
+            color: (0.1, 0.3, 0.6, 1)
+            bold: True
+            size_hint_y: 0.06
+
+        # History and Graph Grid
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+            size_hint_y: 0.55
+
+            # History Side
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.4
+
+                Label:
+                    text: "Recent Expenses"
+                    font_size: 14
+                    bold: True
+                    color: (0, 0, 0, 1)  # Black text
+                    size_hint_y: 0.1
+
+                ScrollView:
+                    Label:
+                        id: history_label
+                        text: "No expenses yet"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: (self.width, None)
+                        padding: (10, 10)
+                        color: (0, 0, 0, 1)  # Black text
+
+            # Graph Side
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.6
+
+                Label:
+                    text: "Visual Analytics"
+                    font_size: 14
+                    bold: True
+                    color: (0.3, 0.3, 0.3, 1)
+                    size_hint_y: 0.1
+
+                BoxLayout:
+                    size_hint_y: 0.1
+                    orientation: 'horizontal'
+                    spacing: 5
+
+                    Button:
+                        text: "📊 Pie"
+                        background_color: (0.3, 0.7, 0.7, 1)
+                        background_normal: ''
+                        color: (1, 1, 1, 1)
+                        on_press: root.change_graph_type("pie")
+
+                    Button:
+                        text: "📈 Bar"
+                        background_color: (0.4, 0.6, 0.9, 1)
+                        background_normal: ''
+                        color: (1, 1, 1, 1)
+                        on_press: root.change_graph_type("bar")
+
+                    Button:
+                        text: "📉 Line"
+                        background_color: (0.8, 0.5, 0.5, 1)
+                        background_normal: ''
+                        color: (1, 1, 1, 1)
+                        on_press: root.change_graph_type("line")
+
+                BoxLayout:
+                    id: graph_box
+                    orientation: 'vertical'
+
+        # Status Bar
+        Label:
+            id: status_label
+            text: ""
+            color: (0.2, 0.6, 0.2, 1)
+            font_size: 12
+            size_hint_y: 0.05
+
+<AppManager>:
+    LoginScreen:
+        id: login_screen
+        name: 'login'
+
+    DashboardScreen:
+        id: dashboard_screen
+        name: 'dashboard'
