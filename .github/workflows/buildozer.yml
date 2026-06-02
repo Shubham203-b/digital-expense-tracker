@@ -7,27 +7,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    
+
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
-    
+
     - name: Install Buildozer
       run: |
         pip install --upgrade pip
         pip install buildozer
         pip install kivy-garden
         python -m garden install matplotlib
-    
+
     - name: Build APK
       run: |
         buildozer -v android debug
-    
+
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
