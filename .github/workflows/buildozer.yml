@@ -22,7 +22,7 @@ jobs:
         pip install --upgrade pip
         pip install buildozer
         pip install kivy-garden
-        python -m garden install matplotlib
+        pip install garden-matplotlib
 
     - name: Build APK
       run: |
