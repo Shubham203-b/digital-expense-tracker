@@ -7,7 +7,7 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 1.0
 
 # CRITICAL: Use specific versions that work on Android
-requirements = python3,kivy,kivy-garden,matplotlib==3.6.3,numpy==1.23.5
+requirements = python3,kivy,kivy-garden,pillow
 
 # IMPORTANT: This downloads the matplotlib garden for Android
 prebuild = python -m pip install kivy-garden && python -m garden install matplotlib
