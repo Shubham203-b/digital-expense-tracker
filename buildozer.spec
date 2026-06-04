@@ -7,8 +7,8 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 1.0
 
 # Use Python 3.11 for better compatibility
-requirements = python3==3.11, kivy, kivy-garden, pillow
-
+requirements = python3,kivy,kivy-garden
+prebuild = python -m pip install kivy-garden && python -m garden install graph
 orientation = portrait
 osx.kivy_version = 2.2.0
 
