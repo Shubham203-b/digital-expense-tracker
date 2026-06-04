@@ -7,22 +7,33 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install Buildozer
-        run: |
-          pip install --upgrade pip
-          pip install buildozer
-          pip install kivy-garden
-          garden install graph
-      - name: Build APK
-        run: buildozer -v android debug
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: expense-tracker-apk
-          path: bin/*.apk
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Buildozer Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y git zip unzip openjdk-11-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
+
+    - name: Install Buildozer
+      run: |
+        pip install --upgrade pip
+        pip install buildozer
+        pip install pillow
+
+    - name: Build APK
+      run: |
+        buildozer -v android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: expense-tracker-apk
+        path: bin/*.apk
