@@ -7,6 +7,7 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 1.0
 
 requirements = python3,kivy,pillow
+p4a.source_dir = 
 
 orientation = portrait
 osx.kivy_version = 2.2.0
