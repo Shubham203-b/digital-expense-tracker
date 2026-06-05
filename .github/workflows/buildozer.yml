@@ -40,6 +40,7 @@ jobs:
       run: |
        export LDFLAGS="-L/usr/lib/x86_64-linux-gnu"
        export CPPFLAGS="-I/usr/include"
+       export M4=/usr/bin/m4
        buildozer -v android debug
 
     - name: Upload APK
