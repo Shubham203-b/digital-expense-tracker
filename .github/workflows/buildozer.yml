@@ -25,13 +25,16 @@ jobs:
 
     - name: Install Buildozer and Dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-11-jdk python3-pip autoconf libtool libtool-bin pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev m4 automake
-        pip install --upgrade pip
-        pip install buildozer
-        pip install pillow
-        # Regenerate autotools macros
-        autoreconf --install || true
+       sudo apt-get update
+       sudo apt-get install -y \
+         git zip unzip openjdk-11-jdk python3-pip \
+         autoconf libtool libtool-bin pkg-config \
+         zlib1g-dev libncurses5-dev libncursesw5-dev \
+         cmake libffi-dev libssl-dev m4 automake \
+         build-essential
+       pip install --upgrade pip
+       pip install buildozer cython
+       pip install pillow
 
     - name: Build APK with Buildozer
       run: |
